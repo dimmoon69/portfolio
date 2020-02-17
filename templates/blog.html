@@ -1,0 +1,74 @@
+{% extends 'index.html' %}
+{% load static %}
+
+    {% block head_title %}{{ article.title }}{% endblock %}
+
+    {% block main_menu %}
+    <!--Main menu-->
+    <li><a href="{% url 'resume' %}">Главная</a></li>
+    <li><a href="#posts">другие статьи</a></li>
+    <li><a href="#contact">Контакты</a></li>
+    <!--Main menu-->
+    {% endblock main_menu %}
+
+    {% block mobile_menu %}
+    <!-- Mobile menu -->
+    <li><a href="{% url 'resume' %}">Главная</a></li>
+    <li><a href="#other_posts">другие статьи</a></li>
+    <li><a href="#contact">Контакты</a></li>
+    <!-- Mobile menu -->
+    {% endblock mobile_menu %}
+
+    {% block header %}
+    <!--Header-->
+    <header class="background blog-header" style="background-image: url({% static 'img/img_bg_main.jpg' %})">
+    </header>
+    <!--Header-->
+    {% endblock header %}
+
+    {% block content %}
+    <!--Article-->
+    <div class="container">
+        <div class="article">
+            <div class="row">
+                <div class="col-md-12">
+                    <a class="article__back-link" href="{% url 'resume' %}"><i class="fa fa-long-arrow-left" aria-hidden="true"></i>НАЗАД</a>
+                    <p class="article__title">{{ article.title }}</p>
+                    <p class="article_date">{{ article.date_publication }}</p>
+                    <p>{{ article.text|safe }}</p>
+                    <p class="article__share">Поделиться статьей:
+                        <a href="https://vk.com/share.php?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa fa-vk"></i></a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i class="fa fa-facebook-square"></i></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Article-->
+
+    <!--Other Posts-->
+    <section id="posts" class="container section">
+        <div class="row">
+            <div class="col-md-12">
+                <h2  id="other_posts" class="section__title">Другие статьи_</h2>
+            </div>
+        </div>
+
+        <div class="row posts">
+            {% for article in article_list %}
+            <div class="col-md-5 mr-auto">
+                <div class="posts__item">
+                    <a href="{% url 'blog' article.url %}">
+                        <h3 class="posts__title">{{ article.title }}</h3>
+                        <p class="posts__description">{{ article.text_min|truncatechars:119 }}</p>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    <!--Other Posts-->
+    {% endblock content %}
+
+    {% block script %}
+    {% endblock script %}

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>{% block head_title %}Портфолио{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/color.css' %}">
+  <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono|Inconsolata" rel="stylesheet">
+  <link href="https://cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!--Main menu-->
+  <div class="menu">
+    <div class="container">
+      <div class="row">
+        <div class="menu__wrapper d-none d-lg-block col-md-12">
+          <nav class="">
+            <ul>
+              {% block main_menu %}
+              <li><a href="#hello">О себе</a></li>
+              <li><a href="#portfolio">Портфолио</a></li>
+              <li><a href="#testimonials">рекомендации</a></li>
+              <li><a href="#blog">блог</a></li>
+              <li><a href="#contact">Контакты</a></li>
+              {% endblock main_menu %}
+            </ul>
+          </nav>
+        </div>
+        <div class="menu__wrapper col-md-12 d-lg-none">
+          <button type="button" class="menu__mobile-button">
+            <span><i class="fa fa-bars" aria-hidden="true"></i></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--Main menu-->
+
+<!-- Mobile menu -->
+  <div class="mobile-menu d-lg-none">
+    <div class="container">
+      <div class="mobile-menu__close">
+        <span><i class="mdi mdi-close" aria-hidden="true"></i></span>
+      </div>
+      <nav class="mobile-menu__wrapper">
+        <ul>
+          {% block mobile_menu %}
+          <li><a href="#hello">О себе</a></li>
+          <li><a href="#portfolio">Портфолио</a></li>
+          <li><a href="#testimonials">рекомендации</a></li>
+          <li><a href="#blog">блог</a></li>
+          <li><a href="#contact">Контакты</a></li>
+          {% endblock mobile_menu %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+<!-- Mobile menu -->
+
+{% block header %}
+<!--Header-->
+{% for profile in profile_list %}
+  <header class="main-header" style="background-image: url({{ profile.photo_big.url }})">
+    <div class="container">
+      <div class="row personal-profile">
+        <div class="col-md-4 personal-profile__avatar">
+          <img class="" src="{{ profile.photo_small.url }}" alt="avatar">
+        </div>
+        <div class="col-md-8">
+          <p class="personal-profile__name">{{ profile.user.first_name }} {{ profile.user.last_name }}_</p>
+          <p class="personal-profile__work">{{ profile.position }}</p>
+          <div class="personal-profile__contacts">
+            <dl class="contact-list contact-list__opacity-titles">
+              <dt>Возраст:</dt>
+              <dd>{{ profile.age }}</dd>
+              {% if profile.phone %}
+              <dt>Телефон:</dt>
+              <dd><a href="tel:{{ profile.phone }}">{{ profile.phone }}</a></dd>
+              {% else %}
+              <dt>Telegram:</dt>
+              <dd><a href="tg://resolve?domain={{ profile.telegram }}">{{ profile.telegram }}</a></dd>
+              {% endif %}
+              <dt>Email:</dt>
+              <dd><a href="mailto:{{ profile.user.email }}">{{ profile.user.email }}</a></dd>
+              <dt>Адрес:</dt>
+              <dd>{{ profile.address }}</dd>
+              {% endfor %}
+            </dl>
+          </div>
+          <p class="personal-profile__social">
+            {% for profile in profile_list.first.social_network.all %}
+            <a href="{{ profile.link }}" target="_blank"><i class="{{ profile.icon }}"></i></a>
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+<!--Header-->
+{% endblock header %}
+
+
+{% block content %}
+<!--Hello-->
+  <section id="hello" class="container section">
+    <div class="row js-progress-list">
+      <div class="col-md-12">
+        <h2 id="hello_header" class="section__title">О себе_</h2>
+        <p class="section__description">{{ profile_list.first.hello }}</p>
+        <div class="row section__resume progress-list ">
+          <div class="col-md-12">
+            <h3 class="progress-list__title">навыки</h3>
+          </div>
+          {% for skill in profile_list.first.skill.all %}
+          <div class="col-md-6 mr-auto">
+            <div class="progress-list__skill">
+              <p>
+                <span class="progress-list__skill-title">{{ skill.name }}</span>
+                <span class="progress-list__skill-value">{{ skill.percent }}%</span>
+              </p>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="{{ skill.percent }}" aria-valuemin="0" aria-valuemax="100" >
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+<!--Hello-->
+
+  <hr>
+  <hr>
+
+<!--Portfolio-->
+  <section id="portfolio" class="container section">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 id="portfolio_header" class="section__title">Мои работы_</h2>
+      </div>
+    </div>
+    <div class="portfolio-cards">
+      <div class="row post-cards">
+        {% for work in work_list %}
+        <div class="col-md-3" data-toggle="modal" data-target="#{{ work.url }}">
+          <div class="post-cards__card mb-4">
+            <div class="post-cards__img">
+              <img src="{{ work.photo.url }}" alt="blog_img">
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+<!--Portfolio-->
+
+<!--Testimonials-->
+  <div id="testimonials" class="section">
+    <div class="background slider-carousel" style="background-image: url({% static 'img/img_bg_main.jpg' %});">
+      <div class="container">
+        <div id="carouselTestimonials" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            {% for recommendation in testimonials_list %}
+              {% if recommendation.sequence == 0 %}
+                <li data-target="#carouselTestimonials" data-slide-to="{{ recommendation.sequence }}" class="active"></li>
+              {% else %}
+                <li data-target="#carouselTestimonials" data-slide-to="{{ recommendation.sequence }}"></li>
+              {% endif %}
+            {% endfor %}
+          </ol>
+          <div class="carousel-inner" role="listbox">
+            {% for recommendation in testimonials_list %}
+              {% if forloop.first %}
+                <div class="carousel-item active">
+              {% else %}
+                <div class="carousel-item">
+              {% endif %}
+                <div class="row">
+                  <div class="col-md-10 col-sm-10 col-10 mr-auto ml-auto">
+                    <p class="slider-carousel__title">{{ recommendation.name }}</p>
+                    <p class="slider-carousel__caption">Проект: {{ recommendation.work }}</p>
+                    <hr>
+                    <p class="slider-carousel__description">{{ recommendation.text }}</p>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <a class="carousel-control-prev" href="#testimonials" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#testimonials" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+          <div class="slider-carousel__circle">
+            <p><i class="fa fa-quote-right" aria-hidden="true"></i></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Testimonials-->
+
+<!--Blog-->
+  <section id="blog" class="container section">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 id="blog_header" class="section__title">Новые статьи_</h2>
+      </div>
+    </div>
+
+    <div class="row post-cards">
+      {% for article in article_list %}
+      <div class="col-md-4">
+        <a href="{{ article.get_absolute_url }}">
+          <div class="post-cards__card">
+            <div class="post-cards__img">
+              <img src="{{ article.image.url }}" alt="blog_img">
+            </div>
+            <div class="post-cards__info">
+              <p class="post-cards__date">{{ article.date_publication }}</p>
+              <h3 class="post-cards_title">{{ article.title }}</h3>
+              <p class="post-cards_description">{{ article.text_min|truncatechars:118}}
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+<!--Blog-->
+{% endblock content %}
+<!--Contact-->
+    <div class="background" style="background-image: url({% static 'img/img_bg_main.jpg' %})">
+        <div id="contact" class="container section">
+            <div class="row">
+                <div class="col-md-12">
+                    <p id="contacts_header" class="section__title">Контакты_</p>
+                </div>
+            </div>
+            <div class="row contacts">
+                <div class="col-md-5 col-lg-4">
+                    <div class="contacts__list">
+                        <dl class="contact-list">
+                            {% if profile_list.first.phone %}
+                            <dt>Телефон:</dt>
+                            <dd><a href="tel:{{ profile.phone }}">{{ profile_list.first.phone }}</a></dd>
+                            {% else %}
+                            <dt>Telegram:</dt>
+                            <dd><a href="tg://resolve?domain={{ profile.telegram }}">{{ profile_list.first.telegram }}</a></dd>
+                            {% endif %}
+                            <dt>Skype:</dt>
+                            <dd><a href="skype:Templix">{{ profile_list.first.skype }}</a></dd>
+                            <dt>Email:</dt>
+                            <dd><a href="mailto:{{ profile_list.first.user.email }}">{{ profile_list.first.user.email }}</a></dd>
+                        </dl>
+                    </div>
+                    <div class="contacts__social">
+                        <ul>
+                          {% for profile in profile_list.first.social_network.all %}
+                            <li><a href="{{ profile.link }}" target="_blank">{{ profile.name }}</a></li>
+                          {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-7 col-lg-5">
+                    <div class="contacts__form">
+                        <p class="contacts__form-title">Или просто напишите мне письмо здесь_</p>
+                        <form action="{% url 'message' %}" method="post">
+                          {% csrf_token %}
+                            <div class="form-group">
+                                <input class="form-field " type="text" placeholder="Ваше имя" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-field " type="email"  placeholder="Ваш e-mail" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-field " placeholder="Ваше сообщение" name="text"
+                                          required></textarea>
+                            </div>
+                            <button class="site-btn site-btn--form" type="submit">Отправить</button>
+                        </form>
+                    </div>
+                    <div class="footer">
+                        <p>© 2019-{% now "Y" %} My skill site. Все права защищены.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--Contact-->
+
+<!-- Portfolio Modal -->
+{% for work in work_list %}
+  <div class="modal fade portfolio-modal" id="{{ work.url }}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body col-md-11 col-lg-9 ml-auto mr-auto">
+        <p class="portfolio-modal__title">{{ work.title }}</p>
+        <img class="portfolio-modal__img" src="{{ work.photo.url }}" alt="modal_img">
+        <p class="portfolio-modal__description">{{ work.text }}</p>
+        <div class="portfolio-modal__link">
+          <a href="{{ work.link }}" target="_blank">{{ work.dns }}</a>
+        </div>
+        <div  class="portfolio-modal__stack">
+          <p class="portfolio-modal__stack-title">Используемые технологии:</p>
+          <ul class="tags">
+            {% for tag in work.tags.all %}
+            <li>{{ tag.name }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+<!-- Portfolio Modal -->
+  <script src="{% static 'js/jquery-2.2.4.min.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/menu.js' %}"></script>
+  <script src="{% static 'js/jquery.waypoints.js' %}"></script>
+  <script src="{% static 'js/progress-list.js' %}"></script>
+  <script src="{% static 'js/section.js' %}"></script>
+  <script src="{% static 'js/portfolio-filter.js' %}"></script>
+  <script src="{% static 'js/slider-carousel.js' %}"></script>
+  <script src="{% static 'js/mobile-menu.js' %}"></script>
+  <script src="{% static 'js/mbclicker.min.js' %}"></script>
+  <script src="{% static 'js/site-btn.js' %}"></script>
+
+</body>
+</html>
