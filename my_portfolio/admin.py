@@ -34,6 +34,13 @@ class ProfileAdmin(admin.ModelAdmin):
     inlines = [SocialNetworkInline, SkillInline]
     save_on_top = True
 
+    def has_add_permission(self, request):
+        num_objects = self.model.objects.count()
+        if num_objects >= 1:
+            return False
+        else:
+            return True
+
 
 class RecommendationInline(admin.TabularInline):
     model = Recommendation
