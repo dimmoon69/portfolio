@@ -1,10 +1,10 @@
 from django.views.generic import ListView, DetailView
 
-from .models import Profile, Work, Recommendation, Article
+from .models import Profile, Work, Recommendation, Article, Category
 
 
 class DetailProfileView(ListView):
-    """Детальное отображение"""
+    """Детальное отображение профиля"""
     model = Profile
     template_name = "index.html"
 
@@ -25,6 +25,7 @@ class DetailArticlesView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DetailArticlesView, self).get_context_data()
-        context["article_list"] = Article.objects.filter(draft=True)
+        # context["article_list"] = Article.objects.filter(draft=True)
         context["profile_list"] = Profile.objects.all()
+        context["categories"] = Category.objects.all()
         return context

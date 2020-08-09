@@ -53,11 +53,29 @@
                 <h2  id="other_posts" class="section__title">Другие статьи_</h2>
             </div>
         </div>
+        <div class="row portfolio-menu">
+          <div class="col-md-12">
+            <nav>
+              <ul>
+                  {% for category in categories %}
+                <li><a href="" data-portfolio-target-tag="{{ category.id }}">{{ category.name }}</a></li>
+<!--                <li><a href="" data-portfolio-target-tag="web-sites">web-sites</a></li>-->
+<!--                <li><a href="" data-portfolio-target-tag="landing-pages">landing pages</a></li>-->
+<!--                  <li><a href="" data-portfolio-target-tag="all">all</a></li>-->
+                  {% endfor %}
+              </ul>
+                <hr>
+            </nav>
+          </div>
+        </div>
 
-        <div class="row posts">
-            {% for article in article_list %}
+        <div class="portfolio-cards">
+<!--          <div class="row project-card" data-toggle="modal" data-target="#portfolioModal" data-portfolio-tag="web-sites">-->
+            {% for category in categories %}
+        <div class="row posts" data-toggle="modal" data-target="#portfolioModal" data-portfolio-tag="{{ category.id }}">
+            {% for article in category.article_set.all %}
             <div class="col-md-5 mr-auto">
-                <div class="posts__item">
+                <div class="row project-card p-3 mb-0">
                     <a href="{% url 'blog' article.url %}">
                         <h3 class="posts__title">{{ article.title }}</h3>
                         <p class="posts__description">{{ article.text_min|truncatechars:119 }}</p>
@@ -66,6 +84,29 @@
             </div>
             {% endfor %}
         </div>
+            {% endfor %}
+<!--            <div class="col-md-6 col-lg-5 project-card__img">-->
+<!--              <img class="" src="assets/img/img_project_1_mono.png" alt="project-img">-->
+<!--            </div>-->
+<!--            <div class="col-md-6 col-lg-7 project-card__info">-->
+<!--              <h3 class="project-card__title">Mobile and desktop app for London hostel store  </h3>-->
+<!--              <p class="project-card__description">-->
+<!--                Do answered bachelor occasion in of offended no concerns. Supply worthy warmth branch of no ye.-->
+<!--                Voice tried known to as my to. Though wished merits or be. Alone visit use these smart rooms ham.-->
+<!--              </p>-->
+<!--              <p class="project-card__stack">Used stack:</p>-->
+<!--              <ul class="tags">-->
+<!--                <li>html5</li>-->
+<!--                <li>css3</li>-->
+<!--                <li>JavaScript</li>-->
+<!--                <li>bower</li>-->
+<!--                <li>grunt</li>-->
+<!--              </ul>-->
+<!--              <a href="" class="project-card__link">www.templix.ru</a>-->
+<!--            </div>-->
+          </div>
+
+
     </section>
     <!--Other Posts-->
     {% endblock content %}

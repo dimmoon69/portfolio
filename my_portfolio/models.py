@@ -75,6 +75,22 @@ class Tag(models.Model):
         verbose_name_plural = "Используемые технологии"
 
 
+class Category(models.Model):
+    """Категории"""
+    name = models.CharField("Категории", max_length=150)
+    url = models.SlugField(max_length=160, unique=True)
+
+    def get_absolute_url(self):
+        return reverse("category-detail", kwargs={"slug": self.url})
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Категория"
+        verbose_name_plural = "Категории"
+
+
 class Work(models.Model):
     """Проекты"""
 
@@ -127,6 +143,7 @@ class Article(models.Model):
 
     title = models.CharField("Заголовок статьи", max_length=250)
     url = models.SlugField("URL", max_length=250, unique=True)
+    category = models.ForeignKey(Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True)
     text_min = models.TextField("Текст мин.", max_length=120)
     text = models.TextField("Текст статьи")
     date_publication = models.DateTimeField("Дата публикации статьи", default=timezone.now)
