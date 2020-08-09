@@ -12,10 +12,9 @@ class MessageView(CreateView):
     """Сообщение"""
     model = Message
     fields = ["name", "email", "text"]
-    # success_url = "/"
+    success_url = "/"
 
-    def post(self, request, *args, **kwargs):
-        return_path = request.META.get('HTTP_REFERER', '/')
+    def form_valid(self, form):
         now = datetime.now()
         name = self.request.POST["name"]
         text = self.request.POST["text"]
@@ -26,6 +25,6 @@ class MessageView(CreateView):
                              "Текст Вашего сообщения:\n\n{}\n\n{}\nemail: {}".format(text, name, email),
                              EMAIL_HOST_USER, [email])
         send = send_mass_mail((message, message_to_client), fail_silently=False)
-        return redirect(return_path)
+        return super().form_valid(form)
 
 
