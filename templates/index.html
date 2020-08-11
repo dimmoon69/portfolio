@@ -3,35 +3,13 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <link rel='manifest' href='/manifest.json'>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="{% static 'manifest.json' %}">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="description" content="">
   <meta name="author" content="">
-  <script type="module">
-  import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
-
-  const el = document.createElement('pwa-update');
-  document.body.appendChild(el);
-  </script>
-  <script>
-    const CACHE = "pwabuilder-offline";
-
-    importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.0.0/workbox-sw.js');
-
-    self.addEventListener("message", (event) => {
-      if (event.data && event.data.type === "SKIP_WAITING") {
-        self.skipWaiting();
-      }
-    });
-
-    workbox.routing.registerRoute(
-      new RegExp('/*'),
-      new workbox.strategies.StaleWhileRevalidate({
-        cacheName: CACHE
-      })
-    );
-  </script>
+  <meta name="theme-color" content="#10dbea">
+  <link rel="apple-touch-icon" href="{% static 'logo/192x192.png' %}">
   <title>{% block head_title %}Портфолио{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/color.css' %}">
   <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono|Inconsolata" rel="stylesheet">
