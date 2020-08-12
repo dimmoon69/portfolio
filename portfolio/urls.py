@@ -21,8 +21,9 @@ from django.urls import path, include
 urlpatterns = [
     path("admiin/", admin.site.urls),
     path("ckeditor/", include("ckeditor_uploader.urls")),
+    path("message/", include("feedback.urls")),
+    path('', include('pwa.urls')),
     path("", include("my_portfolio.urls")),
-    path("", include("feedback.urls")),
 ]
 
 if settings.DEBUG:
