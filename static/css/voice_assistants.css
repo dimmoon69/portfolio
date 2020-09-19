@@ -1,0 +1,19 @@
+textarea {
+      height: 20px;
+    }
+
+    i.fa {
+      width: 26px;
+      height: 26px;
+      line-height: 110px;
+      text-align: center;
+      margin-right: -26px;
+      left: 90%;
+      position: relative;
+      z-index: 1;
+      float: left;
+    }
+
+    i.fa + textarea {
+      padding-left: 26px;
+    }

@@ -2,7 +2,7 @@
 /* setup vars for our trigger, form, text input and result elements */
 var $voiceTrigger = $("#voice-trigger");
 var $searchForm = $("#search");
-var $searchInput = $("#search-field");
+var $searchInput = $(".search-field");
 var $result = $("#result");
 
 /*  set Web Speech API for Chrome or Firefox */
