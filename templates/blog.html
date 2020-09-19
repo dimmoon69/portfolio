@@ -35,7 +35,9 @@
                     <a class="article__back-link" href="{% url 'resume' %}"><i class="fa fa-long-arrow-left" aria-hidden="true"></i>НАЗАД</a>
                     <p class="article__title">{{ article.title }}</p>
                     <p class="article_date">{{ article.date_publication }}</p>
-                    <p>{{ article.text|safe }}</p>
+                    {% autoescape off %}
+                        <p>{{ article.text|safe }}</p>
+                    {% endautoescape %}
                     <p class="article__share">Поделиться статьей:
                         <a href="https://vk.com/share.php?url={{ request.build_absolute_uri }}" target="_blank"><i class="fa fa-vk"></i></a>
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i class="fa fa-facebook-square"></i></a>
