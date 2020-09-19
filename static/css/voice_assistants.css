@@ -2,7 +2,7 @@ textarea {
       height: 20px;
     }
 
-    i.fa {
+    i.mic {
       width: 26px;
       height: 26px;
       line-height: 110px;
@@ -14,6 +14,6 @@ textarea {
       float: left;
     }
 
-    i.fa + textarea {
+    i.mic + textarea {
       padding-left: 26px;
     }
