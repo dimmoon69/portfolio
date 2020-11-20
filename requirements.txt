@@ -6,3 +6,5 @@ django-pwa==1.0.10
 Pillow==7.0.0
 pytz==2019.3
 sqlparse==0.3.0
+# psycopg2-binary==2.8.5
+# gunicorn==20.0.4
