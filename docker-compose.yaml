@@ -1,5 +1,6 @@
 version: "3.4"
 services:
+
   myskill-postgres:
     image: postgres:12-alpine
     container_name: myskill-postgres
@@ -19,7 +20,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: myskill_app
-    command: gunicorn --worker-class my_skill portfolio.wsgi --timout 120 --bind 0.0.0.0:8000
+    command: gunicorn --worker-class my_skill portfolio.wsgi --bind 0.0.0.0:8000
     environment:
       WAIT_HOST: myskill-postgres:5432
     volumes:
