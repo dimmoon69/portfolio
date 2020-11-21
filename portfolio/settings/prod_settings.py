@@ -1,6 +1,7 @@
 DEBUG = False
 
-SECRET_KEY = ")gj8u2&jmv(zt%n=z7r&z-y(l!q2(zlvv=_d0j7qheacql7)d^"
+SECRET_KEY = ')gj8u2&jmv(zt%n=z7r&z-y(l!q2(zlvv=_d0j7qheacql7)d^'
+ALLOWED_HOSTS = ["*"]
 
 DATABASES = {
     'default': {
