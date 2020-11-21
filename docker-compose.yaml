@@ -20,11 +20,11 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: myskill_app
-    command: python manage.py runserver 0.0.0.0:8000
     environment:
-      WAIT_HOST: myskill-postgres:5432
+      WAIT-HOSTS: myskill-postgres
+    command: bash start
     volumes:
-      - .:/home/app/myskill_app
+      - .:/home/app/myskill
     ports:
       - 8000:8000
     tty: true

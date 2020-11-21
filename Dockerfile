@@ -1,30 +1,29 @@
-# pull official base image
-FROM        python:3.8-slim
-ENV         LANG C.UTF-8
-ENV         USER app
-ENV         PROJECTPATH=/home/app/myskill
+FROM    python:3.7
+ENV     LANG C.UTF-8
+ENV     USER app
+ENV     PROJECTPATH=/home/app/myskill
 
-RUN         set -x \
-            && apt-get -qq update \
-            && apt-get install -yq python3-dev libpq-dev gcc git curl git \
-            && apt-get purge -y --auto-remove \
-            && rm -rf /var/lib/apt/lists/*
+RUN     set -x && apt-get -qq update \
+        && apt-get install -y --no-install-recommends \
+        libpq-dev python3-dev git \
+        && apt-get purge -y --auto-remove\
+        && rm -rf /var/lib/apt/lists/*
 
-RUN         useradd -m -d /home/${USER} ${USER} \
-            && chown -R ${USER} /home/${USER}
+RUN     useradd -m -d /home/${USER} ${USER}\
+        && chown -R ${USER} /home/${USER}
 
-RUN         mkdir -p ${PROJECTPATH}
+RUN     mkdir -p ${PROJECTPATH} \
+        && mkdir -p /home/app/static \
+        && mkdir -p /home/app/media
 
-COPY        ./requirements.txt ${PROJECTPATH}/
-COPY        . ${PROJECTPATH}
+COPY    ./requirements.txt ${PROJECTPATH}/
 
-RUN         pip install --no-cache-dir -r ${PROJECTPATH}/requirements.txt
+COPY    . ${PROJECTPATH}
 
-ADD         https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait ${PROJECTPATH}/wait
+RUN     pip install --upgrade pip && pip install -r ${PROJECTPATH}/requirements.txt
 
-RUN         chmod +x ${PROJECTPATH}/wait
+ADD     https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait ${PROJECTPATH}/wait
+RUN     chmod +x ${PROJECTPATH}/wait
 
-WORKDIR     ${PROJECTPATH}
-USER        ${USER}
-
-
+WORKDIR ${PROJECTPATH}
+USER    ${USER}

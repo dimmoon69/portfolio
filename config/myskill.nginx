@@ -1,0 +1,33 @@
+upstream web_server{
+    server 127.0.0.1:8000;
+}
+
+server {
+
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name myskill.site www.myskill.site;
+
+    client_max_body_size 5m;
+
+    location /static/ {
+        alias /home/app/myskill/static/;
+    }
+
+    location = /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+
+
+    location /media/ {
+        alias /home/app/myskill/media/;
+    }
+
+    location /{
+        include proxy_params;
+        proxy_pass http://web_server;
+    }
+}
