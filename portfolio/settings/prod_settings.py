@@ -2,7 +2,7 @@ DEBUG = False
 
 SECRET_KEY = ')gj8u2&jmv(zt%n=z7r&z-y(l!q2(zlvv=_d0j7qheacql7)d^'
 
-ALLOWED_HOSTS = [".myskill.site", ".myskill.site."]
+ALLOWED_HOSTS = ["*",]
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 587
