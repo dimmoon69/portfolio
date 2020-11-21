@@ -4,7 +4,16 @@ from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.utils.safestring import mark_safe
 
-from .models import Profile, Work, Tag, Recommendation, Article, SocialNetwork, Skill, Category
+from .models import (
+    Profile,
+    Work,
+    Tag,
+    Recommendation,
+    Article,
+    SocialNetwork,
+    Skill,
+    Category,
+)
 
 admin.site.site_header = "My skill site"
 admin.site.site_title = "My skill site"
@@ -15,7 +24,7 @@ admin.site.index_title = "Административная панель"
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "url")
     list_display_links = ("name",)
-    prepopulated_fields = {'url': ('name',)}
+    prepopulated_fields = {"url": ("name",)}
 
 
 class ArticleAdminForm(forms.ModelForm):

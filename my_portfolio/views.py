@@ -5,6 +5,7 @@ from .models import Profile, Work, Recommendation, Article, Category
 
 class DetailProfileView(ListView):
     """Детальное отображение профиля"""
+
     model = Profile
     template_name = "index.html"
 
@@ -19,6 +20,7 @@ class DetailProfileView(ListView):
 
 class DetailArticlesView(DetailView):
     """Детальное отображение статьи"""
+
     model = Article
     slug_field = "url"
     template_name = "blog.html"

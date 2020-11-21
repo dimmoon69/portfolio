@@ -8,7 +8,9 @@ from django.utils import timezone
 class Profile(models.Model):
     """Профиль пользователя"""
 
-    user = models.OneToOneField(User, verbose_name="Имя пользователя", on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User, verbose_name="Имя пользователя", on_delete=models.CASCADE
+    )
     photo_small = models.ImageField("Фото", upload_to="photo_user")
     photo_big = models.ImageField("Фото 5760x3048", upload_to="photo_user")
     position = models.CharField("Должность", max_length=100)
@@ -24,6 +26,7 @@ class Profile(models.Model):
 
     def age(self):
         import datetime
+
         td = datetime.datetime.now().date()
         age_years = int((td - self.birthday).days / 365)
         return age_years
@@ -35,7 +38,13 @@ class Profile(models.Model):
 
 class SocialNetwork(models.Model):
     """Соцсети"""
-    user = models.ForeignKey(Profile, verbose_name="Имя пользователя", on_delete=models.CASCADE, related_name="social_network")
+
+    user = models.ForeignKey(
+        Profile,
+        verbose_name="Имя пользователя",
+        on_delete=models.CASCADE,
+        related_name="social_network",
+    )
     name = models.CharField("Соцсеть", max_length=100)
     icon = models.CharField("Иконка соцсети", max_length=100)
     link = models.URLField("Ссылка на сайт")
@@ -50,7 +59,13 @@ class SocialNetwork(models.Model):
 
 class Skill(models.Model):
     """Навыки"""
-    user = models.ForeignKey(Profile, verbose_name="Имя пользователя", on_delete=models.CASCADE, related_name="skill")
+
+    user = models.ForeignKey(
+        Profile,
+        verbose_name="Имя пользователя",
+        on_delete=models.CASCADE,
+        related_name="skill",
+    )
     name = models.CharField("Навык", max_length=100)
     percent = models.PositiveIntegerField("Процент")
 
@@ -64,6 +79,7 @@ class Skill(models.Model):
 
 class Tag(models.Model):
     """Теги"""
+
     # work = models.ForeignKey(Work, verbose_name="Проект", on_delete=models.CASCADE, related_name="tags")
     name = models.CharField("Тег", max_length=50)
 
@@ -77,6 +93,7 @@ class Tag(models.Model):
 
 class Category(models.Model):
     """Категории"""
+
     name = models.CharField("Категории", max_length=150)
     url = models.SlugField(max_length=160, unique=True)
 
@@ -125,7 +142,13 @@ class Work(models.Model):
 
 class Recommendation(models.Model):
     """Отзывы"""
-    work = models.ForeignKey(Work, verbose_name="Проект", on_delete=models.CASCADE, related_name="recommendations")
+
+    work = models.ForeignKey(
+        Work,
+        verbose_name="Проект",
+        on_delete=models.CASCADE,
+        related_name="recommendations",
+    )
     name = models.CharField("ФИО", max_length=100)
     text = models.TextField("Отзыв", max_length=500)
     sequence = models.PositiveIntegerField("Очередность")
@@ -143,10 +166,14 @@ class Article(models.Model):
 
     title = models.CharField("Заголовок статьи", max_length=250)
     url = models.SlugField("URL", max_length=250, unique=True)
-    category = models.ForeignKey(Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(
+        Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True
+    )
     text_min = models.TextField("Текст мин.", max_length=120)
     text = models.TextField("Текст статьи")
-    date_publication = models.DateTimeField("Дата публикации статьи", default=timezone.now)
+    date_publication = models.DateTimeField(
+        "Дата публикации статьи", default=timezone.now
+    )
     date_creation = models.DateTimeField("Дата создания статьи", auto_now_add=True)
     date_edit = models.DateTimeField("Дата редактирования статьи", auto_now=True)
     draft = models.BooleanField("Модерация", default=False)

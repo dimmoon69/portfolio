@@ -3,6 +3,7 @@ from django.db import models
 
 class Message(models.Model):
     """Сообщение"""
+
     name = models.CharField("Имя", max_length=100)
     email = models.EmailField()
     text = models.TextField("Сообщение", max_length=5000)
