@@ -15,7 +15,8 @@ RUN         useradd -m -d /home/${USER} ${USER} \
 
 RUN         mkdir -p ${PROJECTPATH}
 
-ADD         . ${PROJECTPATH}
+COPY        ./requirements.txt ${PROJECTPATH}/
+COPY        . ${PROJECTPATH}
 
 RUN         pip install --no-cache-dir -r ${PROJECTPATH}/requirements.txt
 

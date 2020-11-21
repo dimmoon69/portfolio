@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     "ckeditor_uploader",
     "pwa",
     # apps
+    "fixtures",
     "my_portfolio",
     "feedback",
 ]
