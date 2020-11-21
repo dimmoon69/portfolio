@@ -1,0 +1,40 @@
+version: "3.4"
+services:
+  myskill-postgres:
+    image: postgres:12-alpine
+    container_name: myskill-postgres
+    restart: always
+    volumes:
+      - myskill-postgres-data:/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: myskill
+      POSTGRES_USER: myskill_user
+      POSTGRES_PASSWORD: myskillPSWD8594
+
+  myskill_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: myskill_app
+    command: gunicorn --worker-class my_skill portfolio.wsgi --timout 120 --bind 0.0.0.0:8000
+    environment:
+      WAIT_HOST: myskill-postgres:5432
+    volumes:
+      - .:/home/app/myskill_app
+    ports:
+      - 8000:8000
+    tty: true
+    restart: on-failure
+    depends_on:
+      - myskill-postgres
+
+volumes:
+  myskill-postgres-data:
+
+networks:
+  default:
+    external:
+      name: myskill-network
