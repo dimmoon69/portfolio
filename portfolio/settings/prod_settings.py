@@ -1,5 +1,7 @@
 DEBUG = False
 
+SECRET_KEY = ")gj8u2&jmv(zt%n=z7r&z-y(l!q2(zlvv=_d0j7qheacql7)d^"
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
