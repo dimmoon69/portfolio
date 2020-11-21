@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: myskill_app
-    command: gunicorn --worker-class my_skill portfolio.wsgi --bind 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     environment:
       WAIT_HOST: myskill-postgres:5432
     volumes:
