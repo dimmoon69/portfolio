@@ -9,4 +9,3 @@ class MessageAdmin(admin.ModelAdmin):
     list_filter = ("name", "email", "date")
     search_fields = ("name", "email")
     readonly_fields = ("name", "email")
-

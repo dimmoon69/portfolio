@@ -5,11 +5,12 @@ from .models import Profile, Work, Recommendation, Article, Category
 
 class DetailProfileView(ListView):
     """Детальное отображение профиля"""
+
     model = Profile
     template_name = "index.html"
 
     def get_context_data(self, **kwargs):
-        context = super(DetailProfileView, self).get_context_data()
+        context = super().get_context_data(**kwargs)
         context["testimonials_list"] = Recommendation.objects.all().order_by("sequence")
         context["article_list"] = Article.objects.filter(draft=True)[:3]
         context["work_list"] = Work.objects.filter(draft=True)
@@ -19,6 +20,7 @@ class DetailProfileView(ListView):
 
 class DetailArticlesView(DetailView):
     """Детальное отображение статьи"""
+
     model = Article
     slug_field = "url"
     template_name = "blog.html"
