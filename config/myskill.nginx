@@ -16,19 +16,17 @@ server {
         alias /home/app/myskill/static/;
     }
 
+    location /media/ {
+        alias /home/app/myskill/media/;
+    }
+
     location = /favicon.ico {
         access_log off;
         log_not_found off;
     }
 
-
-
-    location /media/ {
-        alias /home/app/myskill/media/;
-    }
-
-    location /{
-        proxy_pass 127.ifc.0.1:8000;
+    location / {
+        proxy_pass web_server;
         proxy_set_header Host $http_host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
