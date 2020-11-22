@@ -1,3 +1,30 @@
 #!/usr/bin/env bash
-git pull
+if [ -d "/home/app/myskill" ]; then
+  cd /home/app/myskill
+  docker-compose -f docker-compose.yaml stop myskill_app
+  git pull
+  docker-compose -f docker-compose.yaml build myskill_app
+  docker-compose -f docker-compose.yaml up -d
+  rm -f /etc/nginx/sites-available/default
+  rm -f /etc/nginx/sites-enabled/default
+  cp config/myskill.nginx /etc/nginx/sites-available/myskill.conf
+  ln -s /etc/nginx/sites-available/myskill.conf /etc/nginx/sites-enabled/
+  systemctl restart nginx.service
+else
+  mkdir -p /home/app/myskill
+  cd /home/app/myskill
+  git clone git@github.com:HelpCube/portfolio.git .
+  docker network create myskill-network
+  docker-compose up -d --build
+  rm -f /etc/nginx/sites-available/default
+  rm -f /etc/nginx/sites-enabled/default
+  cp config/myskill.nginx /etc/nginx/sites-available/myskill.conf
+  ln -s /etc/nginx/sites-available/myskill.conf /etc/nginx/sites-enabled/
+  systemctl restart nginx.service
+fi
+
+
+
+
+
 docker-compose up -d --build
